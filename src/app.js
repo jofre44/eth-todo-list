@@ -44,6 +44,7 @@ App = {
 
     loadAccount: async() => {
         App.account = web3.eth.accounts[0]
+        web3.eth.defaultAccount = web3.eth.accounts[0];
     },
 
     loadContract: async() => {
@@ -81,7 +82,6 @@ App = {
             const taskCompleted = task[2]   
             
             const $newTaskTemplate = $taskTemplate.clone()
-            console.log($newTaskTemplate)
             $newTaskTemplate.find('.content').html(taskContent)
             $newTaskTemplate.find('input')
                             .prop('name', taskId)
@@ -98,6 +98,13 @@ App = {
         }
 
 
+    },
+
+    createTask: async () => {
+        App.setLoading(true)
+        const content = $('#newTask').val()
+        await App.todoList.createTask(content)
+        window.location.reload()
     },
 
     setLoading: (boolean) => {
